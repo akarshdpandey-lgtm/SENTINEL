@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Mic, MicOff } from 'lucide-react';
+import api from '../lib/api';
 
 const VoiceMonitor = ({ onEmergencyCreate }) => {
   const [isListening, setIsListening] = useState(false);
@@ -86,7 +86,7 @@ const VoiceMonitor = ({ onEmergencyCreate }) => {
 
   const triggerEmergency = async (text, keywords) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/demo/analyze', {
+      const response = await api.post('/demo/analyze', {
         transcript: text,
         location: 'Voice Detected Location',
         emergencyType: keywords.includes('fire') ? 'fire' : keywords.includes('blood') || keywords.includes('hurt') ? 'medical' : 'security'
@@ -94,7 +94,7 @@ const VoiceMonitor = ({ onEmergencyCreate }) => {
 
       const emergencyType = keywords.includes('fire') ? 'fire' : keywords.includes('blood') || keywords.includes('hurt') ? 'medical' : 'security';
 
-      const emergencyResponse = await axios.post('http://localhost:5000/api/emergency', {
+      const emergencyResponse = await api.post('/emergency', {
         type: emergencyType,
         description: `Voice Emergency: ${text}`,
         location: 'Voice Detected Location',

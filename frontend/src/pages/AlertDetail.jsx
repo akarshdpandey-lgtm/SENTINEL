@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { ArrowLeft } from 'lucide-react';
+import api from '../lib/api';
 import TimerCard from '../components/TimerCard';
 import EscalationLadder from '../components/EscalationLadder';
 
@@ -19,8 +19,8 @@ const AlertDetail = ({ emergency, onBack, onUpdate }) => {
     setError('');
     setUpdating(true);
     try {
-      const response = await axios.put(
-        `http://localhost:5000/api/emergency/${emergency.id}`,
+      const response = await api.put(
+        `/emergency/${emergency.id}`,
         { status: newStatus, assignedResponder: responder }
       );
       setStatus(newStatus);
@@ -38,8 +38,8 @@ const AlertDetail = ({ emergency, onBack, onUpdate }) => {
     const newLevel = Math.min(4, (emergency.escalationLevel || 0) + 1);
     setUpdating(true);
     try {
-      const response = await axios.put(
-        `http://localhost:5000/api/emergency/${emergency.id}`,
+      const response = await api.put(
+        `/emergency/${emergency.id}`,
         { escalationLevel: newLevel }
       );
       onUpdate?.(response.data);

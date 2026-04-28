@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { AlertTriangle } from 'lucide-react';
+import api from '../lib/api';
 
 const PanicButton = ({ onEmergencyCreate }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +15,7 @@ const PanicButton = ({ onEmergencyCreate }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/emergency', {
+      const response = await api.post('/emergency', {
         type,
         location: location || 'Current Location',
         description: description || 'Emergency triggered',

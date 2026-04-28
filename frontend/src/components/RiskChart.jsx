@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../lib/api';
 import { TrendingUp } from 'lucide-react';
 
 const RiskChart = () => {
@@ -12,7 +12,7 @@ const RiskChart = () => {
 
   const fetchPredictions = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/analytics/predict');
+      const response = await api.get('/analytics/predict');
       setPredictions(response.data.predictions24h);
       setLoading(false);
     } catch (error) {

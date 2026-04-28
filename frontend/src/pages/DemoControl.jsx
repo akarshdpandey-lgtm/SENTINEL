@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../lib/api';
 import { PlayCircle, StopCircle, RotateCcw } from 'lucide-react';
 
 const DemoControl = ({ onClose }) => {
@@ -12,7 +12,7 @@ const DemoControl = ({ onClose }) => {
     if (demoRunning) {
       interval = setInterval(async () => {
         try {
-          const response = await axios.get('http://localhost:5000/api/demo/progress');
+          const response = await api.get('/demo/progress');
           setProgress(response.data.progress);
 
           if (response.data.progress.status === 'completed') {
@@ -29,7 +29,7 @@ const DemoControl = ({ onClose }) => {
   const handleStartDemo = async () => {
     setDemoRunning(true);
     try {
-      await axios.post('http://localhost:5000/api/demo/start');
+      await api.post('/demo/start');
     } catch (error) {
       console.error('Error starting demo:', error);
       setDemoRunning(false);
@@ -38,7 +38,7 @@ const DemoControl = ({ onClose }) => {
 
   const handleStopDemo = async () => {
     try {
-      await axios.post('http://localhost:5000/api/demo/stop');
+      await api.post('/demo/stop');
       setDemoRunning(false);
       setProgress(null);
     } catch (error) {
@@ -48,7 +48,7 @@ const DemoControl = ({ onClose }) => {
 
   const handleResetDemo = async () => {
     try {
-      await axios.post('http://localhost:5000/api/demo/reset');
+      await api.post('/demo/reset');
       setProgress(null);
     } catch (error) {
       console.error('Error resetting demo:', error);

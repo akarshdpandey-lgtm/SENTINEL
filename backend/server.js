@@ -20,10 +20,10 @@ console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 console.log(`API Key configured: ${process.env.GEMINI_API_KEY ? 'YES ✓' : 'NO ✗'}`);
 
 // Middleware
-const allowedOrigins = [
-  process.env.CORS_ORIGIN || 'http://localhost:3000',
-  'http://127.0.0.1:3000'
-];
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000,http://127.0.0.1:3000')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -82,7 +82,7 @@ app.use(errorHandler);
 // Start server
 app.listen(PORT, () => {
   console.log(`\n✓ SENTINEL Backend running at http://localhost:${PORT}`);
-  console.log(`✓ CORS enabled for: ${process.env.CORS_ORIGIN || 'http://localhost:3000'}`);
+  console.log(`✓ CORS enabled for: ${allowedOrigins.join(', ')}`);
   console.log(`✓ API endpoints ready for frontend connection`);
   console.log('\nAvailable endpoints:');
   console.log('  GET  /api - API information');

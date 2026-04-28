@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from './lib/api';
 import PanicButton from './components/PanicButton';
 import VoiceMonitor from './components/VoiceMonitor';
 import Heatmap from './components/Heatmap';
@@ -11,8 +11,6 @@ import RiskChart from './components/RiskChart';
 import CampusMap from './components/CampusMap';
 import DashboardPage from './pages/DashboardPage';
 import AlertDetail from './pages/AlertDetail';
-
-const API_BASE = 'http://localhost:5000/api';
 
 function App() {
   const [page, setPage] = useState('dashboard');
@@ -28,14 +26,14 @@ function App() {
 
   const fetchEmergencies = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/emergency`);
+      const response = await api.get('/emergency');
       setEmergencies(response.data);
       setSelectedEmergency((current) => {
         if (!current) return current;
         return response.data.find((emergency) => emergency.id === current.id) || current;
       });
       
-      const statsResponse = await axios.get(`${API_BASE}/emergency/stats`);
+      const statsResponse = await api.get('/emergency/stats');
       setStats(statsResponse.data);
     } catch (error) {
       console.error('Error fetching emergencies:', error);

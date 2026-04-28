@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../lib/api';
 
 const Heatmap = () => {
   const [heatmapData, setHeatmapData] = useState([]);
@@ -12,7 +12,7 @@ const Heatmap = () => {
 
   const fetchHeatmapData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/analytics/heatmap');
+      const response = await api.get('/analytics/heatmap');
       setHeatmapData(response.data.heatmapData);
     } catch (error) {
       console.error('Error fetching heatmap:', error);

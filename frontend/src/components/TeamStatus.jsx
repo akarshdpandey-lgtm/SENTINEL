@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../lib/api';
 import { Users } from 'lucide-react';
 
 const TeamStatus = () => {
@@ -14,7 +14,7 @@ const TeamStatus = () => {
 
   const fetchTeams = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/teams/status/load');
+      const response = await api.get('/teams/status/load');
       setTeams(response.data);
       setLoading(false);
     } catch (error) {

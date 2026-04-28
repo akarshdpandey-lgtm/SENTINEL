@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../lib/api';
 import { Send, Mail, MessageSquare, Tv } from 'lucide-react';
 
 const NotificationGrid = () => {
@@ -12,7 +12,7 @@ const NotificationGrid = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/demo/notifications');
+      const response = await api.get('/demo/notifications');
       setNotifications(response.data.notifications);
       setLoading(false);
     } catch (error) {
